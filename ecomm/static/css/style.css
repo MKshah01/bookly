@@ -1303,6 +1303,18 @@ CSS STRUCTURE:
   .social-links li {
     padding-right: 30px;
   }
+
+  #back-to-top {
+    position: fixed;
+    right: 20px; /* Position the button on the right side */
+    bottom: 30px; /* Adjust this value to move the button further up or down */
+    z-index: 1000; /* Ensure it is above other elements */
+    display: none; /* Hide the button by default */
+    background-color: transparent; /* Make sure the button has no background */
+    border: none; /* Remove any border */
+    cursor: pointer; /* Change cursor to pointer when hovering */
+  }
+
   
   /*----------------------------------------------*/
   /* 5. SITE STRUCTURE */
