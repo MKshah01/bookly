@@ -1,0 +1,239 @@
+/* Container around product-grid */
+.product-container {
+    padding: 2rem;  /* Add padding using rem for scalability */
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: 1fr;  /* Default for mobile: 1 product per row */
+    grid-gap: 3rem;  /* Space between products for mobile screens */
+    padding: 0;  /* No padding needed as container handles it */
+    max-width: 1200px; /* Set a maximum width */
+    margin: 0 auto; /* Center the grid */
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);  /* 2 products per row for tablets */
+        grid-gap: 2rem;  /* Space between products for tablets */
+        margin-left: 9.5rem;
+    }
+
+    .product-col {
+        padding: 1rem;  /* Padding inside each product card for tablets */
+    }
+}
+
+/* Large devices (small desktops, 992px and up) */
+@media (min-width: 992px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);  /* 3 products per row for small desktops */
+        grid-gap: 2rem;  /* Space between products */
+    }
+
+    .product-col {
+        padding: 1.5rem;  /* Padding inside each product card for small desktops */
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .product-grid {
+        grid-template-columns: repeat(4, 1fr);  /* 4 products per row for large desktops */
+        grid-gap: 2rem;  /* Increased gap between products */
+        
+    }
+
+    .product-col {
+        padding: 2rem;  /* More padding inside each product card for large desktops */
+    }
+}
+
+/* Ultra large devices (extra large desktops, 1600px and up) */
+@media (min-width: 1600px) {
+    .product-grid {
+        grid-template-columns: repeat(5, 1fr);  /* 5 products per row for extra large screens */
+        grid-gap: 3rem;  /* Space between products */
+    }
+
+    .product-col {
+        padding: 2.5rem;  /* More padding for extra large screens */
+    }
+}
+
+
+.book {
+    position: relative;
+    border-radius: 10px;
+    width: 220px; /* Adjust as needed */
+    height: 300px; /* Adjust as needed */
+    background-color: #FAF3E0; /* A softer, aged paper color */
+    /* box-shadow: 1px 1px 12px #000; */
+    transform: preserve-3d;
+    perspective: 2000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+}
+
+
+.cover {
+    position: absolute;
+    background-color: lightgray;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.5s;
+    transform-origin: 0;
+    box-shadow: 1px 1px 12px #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book:hover .cover {
+    transform: rotateY(-80deg);
+}
+
+.product-image {
+    width: 100%; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Match the card's corners */
+}
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ff5c85; /* Your chosen color */
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.product-price {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: #000;
+}
+
+.product-price .old-price {
+    text-decoration: line-through;
+    color: #888;
+}
+
+p {
+    font-size: 20px;
+    font-weight: bolder;
+}
+.product-info {
+    text-align: center; /* Center-align the title and price */
+    padding: 10px 0;   /* Add space around the text */
+}
+
+.product-title {
+    font-size: 22px; /* Larger font size for visibility */
+    font-weight: bold; /* Make the title bold */
+    color: #8B5B29; /* Darker color for contrast */
+    margin: 0; /* Remove any default margin */
+    padding: 5px 0; /* Add some padding above and below */
+    text-align: center; /* Center-align the title */
+    text-transform: uppercase; /* Optional: make the text uppercase */
+    letter-spacing: 0.5px; /* Slightly increased letter spacing for readability */
+}
+
+
+.product-price {
+    color: #D4C08E; /* Base color for the current price */
+    margin: 29px; /* No margin to keep it directly below the title */
+    padding-top: 5px; /* Space above the price for separation */
+    font-size: 18px; /* Adjust font size as needed */
+}
+
+.current-price {
+    font-weight: bold; /* Bold for emphasis */
+    font-size: 20px; /* Slightly larger font size for visibility */
+    color: #ff5c85; /* Your preferred color for current price */
+}
+
+.old-price {
+    text-decoration: line-through; /* Strike-through for old price */
+    color: #888; /* Lighter color for old price */
+    margin-left: 50px; /* Space between current and old price */
+    font-size: 16px; /* Slightly smaller font size for distinction */
+}
+
+.view-product-btn {
+    display: inline-block; /* Ensures the button displays as a block */
+    margin-top: 10px; /* Space above the button */
+    padding: 10px 20px; /* Padding inside the button */
+    background-color: #ff7c92; /* Your preferred background color */
+    color: white; /* Text color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center; /* Center the text */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Bold text */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.view-product-btn:hover {
+    background-color: #e05378; /* Darker shade on hover */
+}
+.page-title {
+    font-size: 36px; /* Prominent font size */
+    font-weight: 700; /* Bold font weight for impact */
+    color: #ff5c85; /* Vibrant theme color */
+    margin: 30px 0; /* Space above and below the title */
+    text-align: center; /* Center the title */
+    text-transform: uppercase; /* Uppercase text */
+    letter-spacing: 2px; /* Increased letter spacing for elegance */
+    
+    /* Gradient text effect */
+    background: linear-gradient(45deg, #ff5c85, #ff8e8e); 
+    -webkit-background-clip: text; /* Clip background to text */
+    color: transparent; /* Make the text color transparent */
+    
+    /* Subtle text shadow */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Softer shadow for depth */
+    
+    /* Decorative underline */
+    position: relative; /* For positioning the underline */
+    padding-bottom: 10px; /* Space for the underline */
+}
+
+.page-title::after {
+    content: ""; /* Create a pseudo-element */
+    display: block; /* Make it a block element */
+    width: 80%; /* Control the width of the underline */
+    height: 4px; /* Thickness of the underline */
+    background-color: #ff5c85; /* Underline color */
+    margin: 10px auto; /* Center the underline */
+    border-radius: 2px; /* Rounded corners */
+    opacity: 0.8; /* Slight transparency for a softer look */
+}
+
+/* Optional Hover Effect */
+.page-title:hover {
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+
+.section-line {
+    content: ""; /* Create a pseudo-element for styling */
+    display: block; /* Make it a block element */
+    width: 80%; /* Control the width of the line */
+    height: 6px; /* Thickness of the line */
+    background-color: #ff5c85; /* Color of the line */
+    margin: 30px auto; /* Center the line with space above and below */
+    border-radius: 3px; /* Rounded corners for the line */
+}
+
+
+
+
+

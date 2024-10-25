@@ -1,0 +1,157 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div class="product-container">
+    <div class="content-wrapper">
+        <!-- Left Column: Product Image and Price/Rating -->
+        <div class="image-price-wrapper">
+            <div class="image-container fade-slide-in-left" style="margin-bottom: 20px;">
+                <img src="{{ product.image.url }}" alt="{{ product.title }}" class="main-product-image">
+                {% if product.get_percentage > 0 %}
+                <span style="background-color: #ff0000; color: white; padding: 5px 10px; border-radius: 5px; position: absolute; top: 10px; right: 10px;">
+                    {{ product.get_percentage }}% off
+                </span>
+                {% endif %}
+            </div>
+
+            <!-- Product Price and Reviews (Below Image) -->
+            <div class="price-rating" style="text-align: center;">
+                <p class="fade-slide-in-up" style="font-size: 18px; color: #333333;">
+                    Price: <span style="color: #ff5c85; font-weight: bold;">${{ product.price }}</span>
+                </p>
+                {% if product.old_price %}
+                <span style="text-decoration: line-through; color: #999; margin-left: 10px;">${{ product.old_price }}</span>
+                {% endif %}
+                
+                <div class="average-rating">
+                    <span style="font-size: 18px; color: #333;">Average Rating:</span>
+                    <span style="font-size: 18px; color: #ff5c85; font-weight: bold;">{{ average_rating.rating|default:0 }}</span>
+                    <span style="font-size: 16px; color: #999;">/5</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Product Details -->
+        <div class="product-details fade-slide-in-right" style="margin-bottom: 40px;">
+            <h1 style="font-size: 32px; color: #ea1d6f; margin-bottom: 15px;">{{ product.title }}</h1>
+            <p style="font-size: 14px; color: #555555; line-height: 1.6;">{{ product.description }}</p>
+            <div style="margin-top: 20px;">
+                <p><strong>Category:</strong> {{ product.category }}</p>
+                <p><strong>Availability:</strong> {% if product.stock > 0 %} In Stock {% else %} Out of Stock {% endif %}</p>
+            </div>
+            <div style="margin-top: 20px;">
+                <button type="submit" class="cart-button {% if product.stock == 0 %}disabled{% endif %}">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Image Gallery -->
+        {% if product.product_images.count > 1 %}
+        <div class="gallery-container fade-slide-in-up" style="margin-bottom: 40px;">
+            <h2 style="font-size: 20px; color: #333333;">Product Gallery</h2>
+            <div class="gallery-wrapper">
+                {% for image in product.product_images.all %}
+                <div class="gallery-image-card">
+                    <img src="{{ image.images.url }}" alt="Product Image" class="gallery-image">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+
+    <!-- Reviews Section -->
+    <div class="reviews-section fade-slide-in-up" style="margin-bottom: 40px;">
+        <h2 style="font-size: 20px; color: #333333;">Customer Reviews (<span id="review-count">0</span>)</h2>
+
+        {% if user.is_authenticated %}
+        <div class="submit-review-box" style="margin-bottom: 30px;">
+            <h3 style="font-size: 18px; color: #ea1d6f;">Write a Review</h3>
+            <form method="post" action="{% url 'core:product_detail' product.pid %}">
+                {% csrf_token %}
+                <div class="rating">
+                    <label for="rating">Rating:</label>
+                    <select id="rating" name="rating" required>
+                        <option value="">Select Rating</option>
+                        <option value="1">1 Star</option>
+                        <option value="2">2 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="5">5 Stars</option>
+                    </select>
+                </div>
+                <div class="review-text">
+                    <label for="review">Review:</label>
+                    <textarea id="review" name="review" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-review-btn">Submit Review</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="glass-effect" style="margin-top: 20px; text-align: center;">
+            <p>
+                <i class="fas fa-lock" style="margin-right: 5px;"></i>
+                Please <a href="{% url 'userauths:sign-in' %}" class="login-link" onclick="breakGlass(event)">log in</a> to write a review.
+            </p>
+        </div>
+        {% endif %}
+
+        {% for review in reviews %}
+        <div class="review-box" style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 5px;">
+            <p style="font-size: 14px; font-weight: bold; color: #ea1d6f;">{{ review.user.username }}</p>
+            <p style="font-size: 12px; color: #555555; line-height: 1.6;">
+                {% for star in "★★★★★" %}
+                {% if forloop.counter <= review.rating %}
+                    <span style="color: #ff5c85;">{{ star }}</span>
+                {% else %}
+                    <span style="color: #ddd;">{{ star }}</span>
+                {% endif %}
+                {% endfor %}
+                ({{ review.rating }} / 5)
+            </p>
+            <p style="font-size: 12px; color: #555555; line-height: 1.6;">{{ review.review }}</p>
+            <p style="font-size: 12px; color: #999;">Reviewed on: {{ review.date|date:"F j, Y" }}</p>
+        </div>
+        {% empty %}
+        <p style="font-size: 14px; color: #666;">No reviews yet.</p>
+        {% endfor %}
+    </div>
+    <!-- Related Products Section -->
+    <div class="related-products fade-slide-in-up" style="margin-top: 40px;">
+        <h2 class="page-title" style="font-size: 20px; color: #333;">Related Products</h2>
+        <div class="container">
+            <div class="row product-grid">
+                {% for related_product in related_products %}
+                <div class="col-md-3 product-col">  <!-- Ensure 4 cards per row -->
+                    <div class="book">
+                        <div class="product-info">  <!-- Wrapper for title and price -->
+                            <p class="product-title">{{ related_product.title }}</p>
+                            <a href="{% url 'core:product_detail' related_product.pid %}" class="btn view-product-btn">View Product</a> 
+                            <p class="product-price">
+                                <span class="current-price">${{ related_product.price }}</span>
+                                {% if related_product.old_price %}
+                                <span class="old-price">${{ related_product.old_price }}</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="cover">
+                            <a href="{% url 'core:product_detail' related_product.pid %}">
+                                <img src="{{ related_product.image.url }}" alt="{{ related_product.title }}" class="product-image">
+                                {% if related_product.get_percentage > 0 %}
+                                <span class="discount-badge">{{ related_product.get_percentage }}% off</span>
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No related products found.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="section-line"></div>
+    </div>
+
+{% endblock content %}

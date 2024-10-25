@@ -1,0 +1,355 @@
+/* Review Count Styling */
+.reviews-container h2 {
+    font-size: 24px;
+    color: #ea1d6f;
+    margin-bottom: 20px;
+}
+
+.reviews-container h2 span {
+    font-weight: bold;
+    color: #333; /* Choose a contrasting color */
+}
+
+/* Image and Price Wrapper */
+.image-price-wrapper {
+    display: flex;
+    flex-direction: column; /* Stack image and price/rating vertically */
+    align-items: center; /* Center items horizontally */
+    margin-bottom: 40px; /* Space below the wrapper */
+}
+
+.image-container {
+    margin-bottom: 10px; /* Space between image and price/rating */
+}
+
+.price-rating {
+    text-align: center; /* Center text within the price-rating div */
+}
+
+/* Cart Button */
+.cart-button {
+    margin-top: 20px; /* Adjust spacing for the Add to Cart button */
+}
+
+/* Layout Styles */
+.product-container {
+    max-width: 1000px; /* Increase the max width */
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Ensures full width usage */
+    box-sizing: border-box;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.image-container {
+    flex-basis: 45%;
+    text-align: center;
+}
+
+.product-details {
+    flex-basis: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Animation Styles */
+.fade-slide-in-left {
+    animation: fade-slide-in-left 1s ease both;
+}
+
+.fade-slide-in-right {
+    animation: fade-slide-in-right 1s ease both;
+}
+
+.fade-slide-in-up {
+    animation: fade-slide-in-up 1s ease both;
+}
+
+/* Hover Effects */
+.main-product-image {
+    max-width: 100%;
+    max-height: 500px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.main-product-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cart-button {
+    background-color: #ea1d6f;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cart-button:hover {
+    background-color: #ff5c85;
+}
+
+.cart-button.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Rating Styles */
+.average-rating {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #333333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.average-rating span {
+    font-size: 18px;
+    color: #ff5c85;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.average-rating span:last-child {
+    font-size: 16px;
+    color: #999;
+}
+
+.rating {
+    font-size: 18px;
+}
+
+.star {
+    color: #ccc;
+}
+
+.star.filled {
+    color: #ff5c85;
+}
+
+/* Keyframe Animations */
+@keyframes fade-slide-in-left {
+    0% {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fade-slide-in-right {
+    0% {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fade-slide-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Gallery and Reviews Section */
+.gallery-wrapper {
+    display: flex; /* Align items in a row */
+    flex-wrap: wrap; /* Allow wrapping to the next line */
+    gap: 15px; /* Space between cards */
+}
+
+.gallery-image-card {
+    background-color: #fff; /* Card background color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    overflow: hidden; /* Prevent overflow */
+    width: calc(25% - 15px); /* Adjust width for responsiveness */
+    transition: transform 0.2s; /* Smooth hover effect */
+}
+
+.gallery-image-card:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.gallery-image {
+    width: 100%; /* Full width for image */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Remove bottom space */
+}
+
+
+@media (max-width: 768px) {
+    .gallery-image-card {
+        width: calc(50% - 15px); /* Two cards per row on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-image-card {
+        width: calc(100% - 15px); /* One card per row on very small screens */
+    }
+}
+
+
+
+.review-box {
+    margin-top: 10px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+/* Related Products */
+.related-products-wrapper {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.related-product-item {
+    width: 220px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.related-product-title {
+    font-size: 16px;
+    color: #333;
+    margin-top: 10px;
+}
+
+.related-product-price {
+    font-size: 14px;
+    color: #ea1d6f;
+}
+
+/* Gallery Container */
+.gallery-container {
+    max-width: 1000px; /* Set a max width */
+    margin: 40px auto; /* Centers the gallery and adds margin on top and bottom */
+    padding: 0 20px; /* Adds some padding to the sides */
+}
+
+/* Reviews Section */
+.reviews-section {
+    max-width: 1000px; /* Set a max width */
+    margin: 40px auto; /* Centers the reviews section and adds margin on top and bottom */
+    padding: 0 20px; /* Adds some padding to the sides */
+}
+
+/* General Container */
+.product-container {
+    max-width: 1000px; /* Ensures the entire container doesn't go beyond this width */
+    margin: 40px auto; /* Centers the content in the middle */
+    padding: 0 20px; /* Adds padding on both sides to avoid sticking to edges */
+}
+
+/* Glass Effect */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.3); /* Semi-transparent white */
+    border: 1px solid rgba(234, 29, 111, 0.5); /* Light border with transparency */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* Padding around the text */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    transition: transform 0.3s; /* Smooth hover effect */
+}
+
+.glass-effect:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.glass-effect p {
+    font-size: 16px; /* Font size */
+    color: #333; /* Text color */
+    font-weight: bold; /* Bold text */
+}
+
+/* Breaking Glass Effect */
+.break {
+    animation: break-glass 0.6s forwards; /* Trigger breaking animation */
+}
+
+@keyframes break-glass {
+    0% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.05) rotate(-5deg);
+    }
+    50% {
+        transform: scale(0.9) rotate(5deg);
+    }
+    75% {
+        transform: scale(1.1) rotate(-10deg);
+    }
+    100% {
+        transform: scale(0) rotate(0deg); /* Final scale to 0 */
+        opacity: 0; /* Fade out */
+    }
+}
+
+/* Submit Review Section Styling */
+.submit-review-box {
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 40px; /* Adds space between gallery and review section */
+    font-size: 16px;
+}
+
+.submit-review-box h3 {
+    color: #ea1d6f; /* Customize header color */
+    margin-bottom: 15px;
+}
+
+.submit-review-box input[type="text"],
+.submit-review-box textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.submit-review-box button {
+    background-color: #ea1d6f; /* Button background color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-review-box button:hover {
+    background-color: #ff5c85; /* Darker shade on hover */
+}

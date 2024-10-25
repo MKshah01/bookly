@@ -1,0 +1,80 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<body class="sign-in-page">
+
+    {% if form.errors %}
+        <div style="padding: 15px; margin: 20px auto; border: 1px solid transparent; border-radius: 4px; color: #842029; background-color: #f8d7da; border-color: #f5c6cb; text-align: center; width: 80%; max-width: 600px;">
+            <strong>{{ form.errors }}</strong>
+        </div>
+    {% endif %}
+
+    {% if messages %}
+    <ul class="messages" style="list-style-type: none; padding: 0; margin: 20px auto; width: 80%; max-width: 600px;">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %} 
+                style="padding: 10px; margin: 10px 0; border-radius: 5px; 
+                {% if message.tags == 'success' %} background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; {% endif %}
+                {% if message.tags == 'warning' %} background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; {% endif %}
+                {% if message.tags == 'error' %} background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; {% endif %}
+                ">
+                {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div style="max-width: 500px; margin: 80px auto; padding: 20px; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden;">
+        <!-- Decorative Background Shapes with Softer Colors -->
+        <div style="position: absolute; top: -50px; left: -100px; width: 300px; height: 300px; background: linear-gradient(45deg, #f8d0e4, #f4c2d0); border-radius: 50%; z-index: -1;"></div>
+        <div style="position: absolute; bottom: -80px; right: -120px; width: 300px; height: 300px; background: linear-gradient(45deg, #f0e3f1, #ffdfd4); border-radius: 50%; z-index: -1;"></div>
+
+        <div class="card" style="width: 100%; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); border-radius: 20px; overflow: hidden; background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.5); transition: transform 0.3s ease-in-out;">
+            <!-- Card Header -->
+            <div class="card-header" style="background-color: #ff5c85; padding: 20px; text-align: center; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+                <h2 style="margin: 0; font-size: 24px; color: #fff;">Sign In</h2>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body" style="padding: 20px;">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" required class="form-control" placeholder="you@example.com" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" name="password" required class="form-control" placeholder="Your Password" />
+                    </div>
+                    <!-- Animated Sign In Button -->
+                    <button type="submit" class="btn-1" onclick="breakGlass()">
+                        <div class="original">Sign In</div>
+                        <div class="letters">
+                            <span>S</span>
+                            <span>I</span>
+                            <span>G</span>
+                            <span>N</span>
+                            <span> </span>
+                            <span>I</span>
+                            <span>N</span>
+                        </div>
+                    </button>
+                </form>
+
+                <!-- Redirect to Sign Up with Funny Quote -->
+                <div style="text-align: center; margin-top: 20px;">
+                    <p style="font-size: 14px; color: #666;">Don't have an account? <a href="{% url 'userauths:sign-up' %}" style="color: #ff5c85; font-weight: bold;">Sign up now!</a></p>
+                    <p style="font-size: 12px; color: #999;">"Welcome back! Did you miss us? We missed you!"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+    
+
+
+{% endblock content %}

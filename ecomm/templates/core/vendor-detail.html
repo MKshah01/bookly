@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 40px auto; padding: 20px; background-color: #ffffff; border-radius: 15px; box-shadow: 0px 16px 32px rgba(0, 0, 0, 0.1);">
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+        <!-- Vendor Image (Left side) -->
+        <div style="flex: 0 1 220px; text-align: center; margin-bottom: 20px; margin-top: 20px; opacity: 0; animation: fadeInUp 1s forwards; animation-delay: 0.5s;">
+            <img src="{{ vendor.image.url }}" alt="{{ vendor.title }}" style="width: 180px; height: 180px; border-radius: 50%; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0px 8px 16px rgba(0, 0, 0, 0.3)'; this.style.filter='brightness(1.2)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0px 4px 10px rgba(0, 0, 0, 0.1); this.style.filter='brightness(1)'">
+            <h1 style="font-size: 36px; color: #ea1d6f; font-family: 'Montserrat', sans-serif; margin-top: 20px; margin-bottom: 10px; transition: all 0.3s; cursor: pointer;" onmouseover="this.style.textShadow='0 0 15px #ea1d6f';" onmouseout="this.style.textShadow='none';">{{ vendor.title }}</h1>
+        </div>
+
+        <!-- Vendor Details (Right side) -->
+        <div style="flex: 1; padding-left: 20px; font-size: 16px; color: #333; opacity: 0; animation: fadeInUp 1s forwards; animation-delay: 1s;">
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                <!-- Contact Details Column -->
+                <div style="flex: 0 1 45%; margin-top: 20px;">
+                    <p style="font-weight: bold; color: #007bff; transition: color 0.3s; padding: 5px 0;" onmouseover="this.style.color='#ea1d6f';" onmouseout="this.style.color='#007bff';">Contact: <span style="color: #333;">{{ vendor.contact }}</span></p>
+                    <p style="font-weight: bold; color: #007bff; transition: color 0.3s; padding: 5px 0;" onmouseover="this.style.color='#ea1d6f';" onmouseout="this.style.color='#007bff';">Address: <span style="color: #333;">{{ vendor.address }}</span></p>
+                    <p style="font-weight: bold; color: #007bff; transition: color 0.3s; padding: 5px 0;" onmouseover="this.style.color='#ea1d6f';" onmouseout="this.style.color='#007bff';">Chat Response Time: <span style="color: #333;">{{ vendor.chat_resp_time }} mins</span></p>
+                </div>
+
+                <!-- Other Details Column -->
+                <div style="flex: 0 1 45%; margin-top: 20px;">
+                    <p style="font-weight: bold; color: #007bff; transition: color 0.3s; padding: 5px 0;" onmouseover="this.style.color='#ea1d6f';" onmouseout="this.style.color='#007bff';">Shipping On Time: <span style="color: #333;">{{ vendor.shipping_on_time }}%</span></p>
+                    <p style="font-weight: bold; color: #007bff; transition: color 0.3s; padding: 5px 0;" onmouseover="this.style.color='#ea1d6f';" onmouseout="this.style.color='#007bff';">Authentic Rating: <span style="color: #333;">{{ vendor.authentic_rating }}%</span></p>
+                    <p style="font-weight: bold; color: #007bff; transition: color 0.3s; padding: 5px 0;" onmouseover="this.style.color='#ea1d6f';" onmouseout="this.style.color='#007bff';">Days Return: <span style="color: #333;">{{ vendor.days_return }}</span></p>
+                    <p style="font-weight: bold; color: #007bff; transition: color 0.3s; padding: 5px 0;" onmouseover="this.style.color='#ea1d6f';" onmouseout="this.style.color='#007bff';">Warranty Period: <span style="color: #333;">{{ vendor.warranty_period }}</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Vendor Description (Below the image and contact details) -->
+    <div style="margin-top: 30px; font-size: 14px; color: #555; text-align: justify; line-height: 1.5; opacity: 0; animation: fadeInUp 1s forwards; animation-delay: 1.5s;">
+        <h3 style="font-size: 22px; color: #ea1d6f; font-family: 'Montserrat', sans-serif; margin-bottom: 15px;">About the Vendor</h3>
+        <p>{{ vendor.description }}</p>
+    </div>
+
+</div>
+
+<!-- Keyframe Animations -->
+<style>
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+{% endblock %}

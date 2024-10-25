@@ -1,0 +1,68 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div style="padding: 20px; background-color: #f9f9f9;">
+    <h1 style="text-align: center; color: #333; font-family: Arial, sans-serif; margin-bottom: 20px;">Vendors</h1>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+        {% for vendor in vendors %}
+            <!-- Wrap the card in an anchor link -->
+            <a href="{% url 'core:vendor_detail' vid=vendor.vid %}" style="text-decoration: none;">
+                <div class="vendor-card" style="width: 190px; height: 254px; background-color: #ffffff; border-radius: 20px; margin: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px 10px 10px 10px; cursor: pointer; opacity: 0; animation: fadeIn 0.8s forwards; animation-delay: 0.2s;">
+                    <!-- Circular Image -->
+                    <img src="{{ vendor.image.url }}" alt="{{ vendor.title }}" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; margin-bottom: 15px; border: 2px solid #ff5c85;">
+                    <h3 style="font-size: 18px; color: #333333; font-family: 'Helvetica Neue', sans-serif; text-align: center; margin: 5px 0;">{{ vendor.title }}</h3>
+                    <div style="font-size: 14px; color: #666666; margin-top: 10px;">
+                        <p style="margin: 3px 0;"><strong>Contact:</strong> {{ vendor.contact }}</p>
+                        <p style="margin: 3px 0;"><strong>Address:</strong> {{ vendor.address }}</p>
+                    </div>
+                </div>
+            </a>
+        {% empty %}
+            <p style="text-align: center; color: #666; font-family: Arial, sans-serif;">No vendors available.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Inline CSS for hover effect and animations -->
+<style>
+    /* Vendor Card Hover Effect */
+    .vendor-card {
+        transition: all 0.3s ease;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        opacity: 1;
+    }
+
+    /* Glow effect and scaling on hover */
+    .vendor-card:hover {
+        box-shadow: 0px 0px 30px rgba(255, 92, 133, 0.5); /* Stronger glow effect */
+        transform: scale(1.05); /* Slight zoom on hover */
+        animation: bounce 0.5s ease-in-out;
+    }
+
+    /* Fade-in animation for initial load */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Bounce animation on hover */
+    @keyframes bounce {
+        0% {
+            transform: scale(1.05);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1.05);
+        }
+    }
+</style>
+
+{% endblock %}

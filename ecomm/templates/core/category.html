@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}  
+
+{% block content %}
+<div style="padding: 20px; max-width: 1000px; margin: 0 auto;">
+    <h1 style="text-align: center; color: #333; font-size: 28px; margin-bottom: 15px;">Category List</h1>
+    <p style="text-align: center; font-size: 16px; color: #555; margin-bottom: 25px;">
+        Total Categories: 
+        <span style="font-weight: bold; font-size: 20px; color: #007bff; padding: 6px 12px; border-radius: 4px; background-color: #f0f8ff; box-shadow: 0 3px 8px rgba(0,0,0,0.08);">
+            {{ category_count }}
+        </span>
+    </p>
+    <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+        {% for category in categories %}
+        <a href="{% url 'core:category_product_view' category.cid %}">
+        <div style="border: 1px solid #ddd; border-radius: 10px; overflow: hidden; width: 180px; text-align: center; background-color: #fff; box-shadow: 0 3px 6px rgba(0,0,0,0.05); transition: transform 0.2s ease;">
+            <img src="{{ category.image.url }}" alt="{{ category.title }}" style="width: 100%; height: 120px; object-fit: cover; border-bottom: 1px solid #eee;">
+            <div style="padding: 15px;">
+                <h3 style="margin-bottom: 8px; font-size: 16px; color: #007bff;">{{ category.title }}</h3>
+                <span style="display: inline-block; font-weight: bold; font-size: 16px; color: #ff5c85; padding: 4px 8px; border-radius: 4px; background-color: #f2e2e8; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
+                    {{ category.category.count }}
+                </span>
+            </div>
+        </div></a>
+        {% empty %}
+        <p style="text-align: center; color: #666;">No categories available.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

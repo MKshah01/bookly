@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Products List{% endblock %}
+
+{% block content %}
+<section class="product-section">
+    <h1 class="page-title">Our Products</h1>
+    <div class="container">
+        <div class="row product-grid">
+            {% for product in products %}
+            <div class="col-md-3 product-col">  <!-- Ensure 4 cards per row -->
+                <div class="book">
+                    <div class="product-info">  <!-- Wrapper for title and price -->
+                        <p class="product-title">{{ product.title }}</p>
+                        <a href="{% url 'core:product_detail' product.pid %}" class="btn view-product-btn">View Product</a> 
+                        <p class="product-price">
+                            <span class="current-price">${{ product.price }}</span>
+                            {% if product.old_price %}
+                            <span class="old-price">${{ product.old_price }}</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="cover">
+                        <a href="{% url 'core:product_detail' product.pid %}">
+                            <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-image">
+                            {% if product.get_percentage > 0 %}
+                            <span class="discount-badge">{{ product.get_percentage }}% off</span>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="section-line"></div>
+</section>
+{% endblock %}

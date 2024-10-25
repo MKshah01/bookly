@@ -1,0 +1,143 @@
+        /* Button styles for the animated sign in button */
+        .btn-1,
+        .btn-1 *,
+        .btn-1:after,
+        .btn-1:before {
+            border: none;
+            box-sizing: border-box;
+        }
+
+        .btn-1 {
+            scale: 0.8;
+            -webkit-tap-highlight-color: transparent;
+            background-color: #000;
+            color: #fff;
+            cursor: pointer;
+            font-size: 100%;
+            line-height: 1.5;
+            margin: 0;
+            padding: 1rem 2.5rem; /* Adjusted padding */
+            border: 1px solid;
+            border-radius: 50px; /* Changed border-radius for a smoother button */
+            display: block;
+            font-weight: 700;
+            overflow: hidden;
+            position: relative;
+            text-transform: uppercase;
+            transition: transform 0.3s cubic-bezier(0.87, 0, 0.13, 1), box-shadow 0.3s ease, background-color 0.3s ease; /* Added background color transition */
+        }
+
+        .btn-1 .original {
+            background: #ff5c85;
+            color: #000;
+            display: grid;
+            inset: 0;
+            place-content: center;
+            position: absolute;
+            transition: transform 0.3s cubic-bezier(0.87, 0, 0.13, 1);
+        }
+
+        .btn-1:hover {
+            background-color: #fff; /* Change to white on hover */
+            color: #000; /* Text color black on hover */
+        }
+
+        .btn-1:hover .original {
+            transform: translateY(100%);
+            background-color: #fff; /* Ensure background color changes to white on hover */
+        }
+
+        .btn-1 .letters {
+            display: inline-flex;
+        }
+
+        .btn-1 span {
+            opacity: 0;
+            transform: translateY(-15px);
+            transition: transform 0.3s cubic-bezier(0.87, 0, 0.13, 1), opacity 0.3s, color 0.3s ease;
+        }
+
+        .btn-1:hover span {
+            opacity: 1;
+            transform: translateY(0);
+            color: #000; /* Change text color to black on hover */
+        }
+
+        .btn-1:hover span:nth-child(2) {
+            transition-delay: 0.1s;
+        }
+
+        .btn-1:hover span:nth-child(3) {
+            transition-delay: 0.2s;
+        }
+
+        .btn-1:hover span:nth-child(4) {
+            transition-delay: 0.3s;
+        }
+
+        .btn-1:hover span:nth-child(5) {
+            transition-delay: 0.4s;
+        }
+
+        .btn-1:hover span:nth-child(6) {
+            transition-delay: 0.5s;
+        }
+
+        /* Additional styling for the card */
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px; /* Increased margin for better spacing */
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 5px; /* Increased bottom margin */
+        }
+
+        .form-group input {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px; /* Added padding for better user experience */
+            width: 100%;
+            font-size: 14px;
+            transition: border-color 0.3s; /* Smooth transition */
+        }
+
+        .form-group input:focus {
+            border-color: #ff5c85; /* Highlight border on focus */
+            outline: none; /* Remove default outline */
+        }
+/* 
+
+
+        Break Glass Effect 
+        
+        @keyframes break-glass {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+        }
+
+        .glass-effect {
+            animation: break-glass 0.5s ease forwards;
+        } */
+
+        .sign-in-page {
+            background-color: #f0f6fd; 
+        }
+        
+
