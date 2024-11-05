@@ -353,3 +353,43 @@
 .submit-review-box button:hover {
     background-color: #ff5c85; /* Darker shade on hover */
 }
+
+
+
+.rating {
+    display: inline-block;
+    opacity: 1;
+  }
+  
+  .rating input {
+    display: none;
+    opacity: 1;
+  }
+  
+  .rating label {
+    float: right;
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .rating label:before {
+    content: '\2605'; /* Star character */
+    font-size: 30px; /* Size of the star */
+    transition: color 0.3s;
+  }
+  
+  .rating input:checked ~ label,
+  .rating label:hover,
+  .rating label:hover ~ label {
+    color: #ffc300; /* Color of the filled star */
+    transform: scale(1.2); /* Scale effect */
+    transition: color 0.3s, transform 0.3s, box-shadow 0.3s;
+    animation: bounce 0.2s ease-in-out alternate; /* Bounce animation */
+  }
+  
+  @keyframes bounce {
+    to {
+      transform: scale(2);
+    }
+  }

@@ -1,6 +1,10 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block content %}
+<script src="{% static 'js/function.js' %}" defer></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'core/product-detail.css' %}"> 
 <div class="product-container">
     <div class="content-wrapper">
         <!-- Left Column: Product Image and Price/Rating -->
@@ -25,9 +29,12 @@
                 
                 <div class="average-rating">
                     <span style="font-size: 18px; color: #333;">Average Rating:</span>
-                    <span style="font-size: 18px; color: #ff5c85; font-weight: bold;">{{ average_rating.rating|default:0 }}</span>
+                    <span style="font-size: 18px; color: #ff5c85; font-weight: bold;">
+                        {{ average_rating.rating|floatformat:1|default:"0.0" }}
+                    </span>
                     <span style="font-size: 16px; color: #999;">/5</span>
                 </div>
+                
             </div>
         </div>
 
@@ -48,47 +55,58 @@
     </div>
 
     <!-- Product Image Gallery -->
-        {% if product.product_images.count > 1 %}
-        <div class="gallery-container fade-slide-in-up" style="margin-bottom: 40px;">
-            <h2 style="font-size: 20px; color: #333333;">Product Gallery</h2>
-            <div class="gallery-wrapper">
-                {% for image in product.product_images.all %}
-                <div class="gallery-image-card">
-                    <img src="{{ image.images.url }}" alt="Product Image" class="gallery-image">
-                </div>
-                {% endfor %}
+    {% if product.product_images.count > 1 %}
+    <div class="gallery-container fade-slide-in-up" style="margin-bottom: 40px;">
+        <h2 style="font-size: 20px; color: #333333;">Product Gallery</h2>
+        <div class="gallery-wrapper">
+            {% for image in product.product_images.all %}
+            <div class="gallery-image-card">
+                <img src="{{ image.images.url }}" alt="Product Image" class="gallery-image">
             </div>
+            {% endfor %}
         </div>
-        {% endif %}
-
+    </div>
+    {% endif %}
 
     <!-- Reviews Section -->
     <div class="reviews-section fade-slide-in-up" style="margin-bottom: 40px;">
-        <h2 style="font-size: 20px; color: #333333;">Customer Reviews (<span id="review-count">0</span>)</h2>
+        <h2 style="font-size: 20px; color: #333333;">Customer Reviews (<span id="review-count">{{ reviews.count }}</span>)</h2>
 
         {% if user.is_authenticated %}
-        <div class="submit-review-box" style="margin-bottom: 30px;">
-            <h3 style="font-size: 18px; color: #ea1d6f;">Write a Review</h3>
-            <form method="post" action="{% url 'core:product_detail' product.pid %}">
+        <div class="review-form-container" style="margin-top: 20px; padding: 20px; background-color: #f9f9f9; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+            <h2 style="font-size: 24px; color: #ea1d6f; margin-bottom: 15px;">Leave a Review</h2>
+            <form id="reviewForm" method="POST" action="{% url 'core:ajax_add_review' product.pid %}" style="display: flex; flex-direction: column;">
                 {% csrf_token %}
+                <label for="review" style="font-weight: bold; margin-bottom: 5px;"></label>
+                <textarea id="review" name="review" rows="4" required style="padding: 10px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; margin-bottom: 15px;"></textarea>
+        
+                <label style="font-weight: bold; margin-bottom: 5px;"></label>
                 <div class="rating">
-                    <label for="rating">Rating:</label>
-                    <select id="rating" name="rating" required>
-                        <option value="">Select Rating</option>
-                        <option value="1">1 Star</option>
-                        <option value="2">2 Stars</option>
-                        <option value="3">3 Stars</option>
-                        <option value="4">4 Stars</option>
-                        <option value="5">5 Stars</option>
-                    </select>
+                    <input type="radio" id="star5" name="rating" value="5" required>
+                    <label for="star5"></label>
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4"></label>
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3"></label>
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2"></label>
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1"></label>
                 </div>
-                <div class="review-text">
-                    <label for="review">Review:</label>
-                    <textarea id="review" name="review" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="submit-review-btn">Submit Review</button>
+                
+                <button type="submit" style="padding: 10px; background-color: #ea1d6f; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; transition: background-color 0.3s;">
+                    Submit Review
+                </button>
             </form>
+            
+            <div id="reviewMessage" style="margin-top: 10px; color: #ea1d6f; font-weight: bold;"></div>
         </div>
+        
+        
+        
+        
+        
+        
         {% else %}
         <div class="glass-effect" style="margin-top: 20px; text-align: center;">
             <p>
@@ -98,28 +116,54 @@
         </div>
         {% endif %}
 
-        {% for review in reviews %}
-        <div class="review-box" style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 5px;">
-            <p style="font-size: 14px; font-weight: bold; color: #ea1d6f;">{{ review.user.username }}</p>
-            <p style="font-size: 12px; color: #555555; line-height: 1.6;">
-                {% for star in "★★★★★" %}
-                {% if forloop.counter <= review.rating %}
-                    <span style="color: #ff5c85;">{{ star }}</span>
-                {% else %}
-                    <span style="color: #ddd;">{{ star }}</span>
-                {% endif %}
-                {% endfor %}
-                ({{ review.rating }} / 5)
-            </p>
-            <p style="font-size: 12px; color: #555555; line-height: 1.6;">{{ review.review }}</p>
-            <p style="font-size: 12px; color: #999;">Reviewed on: {{ review.date|date:"F j, Y" }}</p>
+        <div id="review-list">
+            <div id="successMessage" style="display:none; color: green; font-weight: bold;"></div>
+            {% for review in reviews|slice:":2" %}
+            <div class="review-box" style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 5px;">
+                <p style="font-size: 14px; font-weight: bold; color: #ea1d6f;">{{ review.user.username }}</p>
+                <p style="font-size: 12px; color: #555555; line-height: 1.6;">
+                    {% for star in "★★★★★" %}
+                    {% if forloop.counter <= review.rating %}
+                        <span style="color: #ff5c85;">{{ star }}</span>
+                    {% else %}
+                        <span style="color: #ddd;">{{ star }}</span>
+                    {% endif %}
+                    {% endfor %}
+                    ({{ review.rating }} / 5)
+                </p>
+                <p style="font-size: 12px; color: #555555; line-height: 1.6;">{{ review.review }}</p>
+                <p style="font-size: 12px; color: #999;">Reviewed on: {{ review.date|date:"F j, Y" }}</p>
+            </div>
+            {% endfor %}
         </div>
-        {% empty %}
-        <p style="font-size: 14px; color: #666;">No reviews yet.</p>
-        {% endfor %}
+
+        {% if reviews.count > 2 %}
+        <button id="viewAllReviews" style="margin-top: 20px; cursor: pointer;">View All Reviews</button>
+        <div id="more-reviews" style="display: none;">
+            {% for review in reviews|slice:"2:" %}
+            <div class="review-box" style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 5px;">
+                <p style="font-size: 14px; font-weight: bold; color: #ea1d6f;">{{ review.user.username }}</p>
+                <p style="font-size: 12px; color: #555555; line-height: 1.6;">
+                    {% for star in "★★★★★" %}
+                    {% if forloop.counter <= review.rating %}
+                        <span style="color: #ff5c85;">{{ star }}</span>
+                    {% else %}
+                        <span style="color: #ddd;">{{ star }}</span>
+                    {% endif %}
+                    {% endfor %}
+                    ({{ review.rating }} / 5)
+                </p>
+                <p style="font-size: 12px; color: #555555; line-height: 1.6;">{{ review.review }}</p>
+                <p style="font-size: 12px; color: #999;">Reviewed on: {{ review.date|date:"F j, Y" }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
-    <!-- Related Products Section -->
-    <div class="related-products fade-slide-in-up" style="margin-top: 40px;">
+
+
+     <!-- Related Products Section -->
+     <div class="related-products fade-slide-in-up" style="margin-top: 40px;">
         <h2 class="page-title" style="font-size: 20px; color: #333;">Related Products</h2>
         <div class="container">
             <div class="row product-grid">
@@ -154,4 +198,5 @@
         <div class="section-line"></div>
     </div>
 </div>
-{% endblock  %}
+
+{% endblock %}

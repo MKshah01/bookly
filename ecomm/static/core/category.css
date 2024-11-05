@@ -1,0 +1,85 @@
+body {
+    background-color: #f7f9fb; /* Soft light gray background */
+    font-family: Arial, sans-serif; /* Clean font */
+}
+
+.category-wrapper {
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #ffffff; /* Solid white background for the card */
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Soft shadow for depth */
+    animation: fadeIn 0.5s ease-in; /* Fade-in effect */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.category-title {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333; /* Darker text for contrast */
+}
+
+.category-info {
+    text-align: center;
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    color: #555; /* Softer gray for contrast */
+}
+
+.category-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.category-item {
+    height: 150px; /* Adjusted for a larger image */
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.category-name {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: inherit; /* Removes color styling */
+}
+
+.category-item:hover {
+    transform: translateY(-10px); /* Lift on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+.category-content {
+    transition: color 0.3s; /* Smooth color change */
+}
+
+.category-name {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #ff5c85; /* Accent color */
+}
+
+.category-count {
+    font-size: 1em;
+    color: #666; /* Subtle gray */
+}
+
+.empty-state {
+    text-align: center;
+    font-size: 1.2em;
+    color: #999; /* Soft gray for empty state text */
+}

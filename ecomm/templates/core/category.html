@@ -1,28 +1,123 @@
-{% extends 'base/base.html' %}  
+{% extends 'base/base.html' %}
+{% load static %}
 
 {% block content %}
-<div style="padding: 20px; max-width: 1000px; margin: 0 auto;">
-    <h1 style="text-align: center; color: #333; font-size: 28px; margin-bottom: 15px;">Category List</h1>
-    <p style="text-align: center; font-size: 16px; color: #555; margin-bottom: 25px;">
-        Total Categories: 
-        <span style="font-weight: bold; font-size: 20px; color: #007bff; padding: 6px 12px; border-radius: 4px; background-color: #f0f8ff; box-shadow: 0 3px 8px rgba(0,0,0,0.08);">
-            {{ category_count }}
-        </span>
-    </p>
-    <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+<style>
+    /* General Wrapper */
+    .category-wrapper {
+        padding: 3rem 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f0f4f8; /* Light background for contrast */
+        border-radius: 10px;
+        box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Header Styling */
+    .header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .category-title {
+        font-size: 2.5rem;
+        color: #333;
+        margin: 0.5rem 0;
+        font-weight: 700;
+    }
+
+    .category-info {
+        font-size: 1.1rem;
+        color: #666;
+    }
+
+    /* Grid Layout */
+    .category-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 2rem;
+        width: 100%;
+        max-width: 1200px;
+        padding: 0 1rem;
+    }
+
+    /* Category Item Card */
+    .category-link {
+        text-decoration: none;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.2s ease;
+        border: 2px solid #e0e0e0; /* Light border for distinction */
+        background-color: #fff; /* White background for cards */
+        position: relative; /* For positioning overlay */
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        height: 250px; /* Fixed height for consistency */
+    }
+
+    .category-item {
+        height: 100%; /* Fill the entire card height */
+        background-size: cover;
+        background-position: center;
+    }
+
+    /* Overlay Content */
+    .category-overlay {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.8); /* Light overlay for readability */
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        border-radius: 0 0 12px 12px; /* Rounded corners for the overlay */
+    }
+
+    .category-name {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 0.5rem 0;
+    }
+
+    .category-product-count {
+        font-size: 1rem;
+        color: #777;
+    }
+
+    /* Hover Effect */
+    .category-link:hover {
+        transform: translateY(-3px); /* Slight lift effect on hover */
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        color: #999;
+        font-size: 1.2rem;
+        margin-top: 2rem;
+    }
+</style>
+
+<div class="category-wrapper">
+    <header class="header">
+        <h1 class="category-title">Browse Our Categories</h1>
+        <p class="category-info">Explore <span class="category-count">{{ category_count }}</span> unique categories.</p>
+    </header>
+    <div class="category-container">
         {% for category in categories %}
-        <a href="{% url 'core:category_product_view' category.cid %}">
-        <div style="border: 1px solid #ddd; border-radius: 10px; overflow: hidden; width: 180px; text-align: center; background-color: #fff; box-shadow: 0 3px 6px rgba(0,0,0,0.05); transition: transform 0.2s ease;">
-            <img src="{{ category.image.url }}" alt="{{ category.title }}" style="width: 100%; height: 120px; object-fit: cover; border-bottom: 1px solid #eee;">
-            <div style="padding: 15px;">
-                <h3 style="margin-bottom: 8px; font-size: 16px; color: #007bff;">{{ category.title }}</h3>
-                <span style="display: inline-block; font-weight: bold; font-size: 16px; color: #ff5c85; padding: 4px 8px; border-radius: 4px; background-color: #f2e2e8; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
-                    {{ category.category.count }}
-                </span>
+        <a href="{% url 'core:category_product_view' category.cid %}" class="category-link">
+            <div class="category-item" style="background-image: url('{{ category.image.url }}');"></div>
+            <div class="category-overlay">
+                <h3 class="category-name">{{ category.title }}</h3>
+                <span class="category-product-count">{{ category.category.count }} Products</span>
             </div>
-        </div></a>
+        </a>
         {% empty %}
-        <p style="text-align: center; color: #666;">No categories available.</p>
+        <p class="empty-state">No categories available at the moment.</p>
         {% endfor %}
     </div>
 </div>

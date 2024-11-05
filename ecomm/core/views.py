@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse , JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Avg , Count
@@ -90,9 +90,6 @@ def best_selling_products_view(request, category_id):
     }
     return render(request, 'core/best_selling_products.html', context)
 
-from django.shortcuts import get_object_or_404
-from .models import Product, ProductReview  # Make sure to import your models
-from django.db.models import Avg
 
 def product_detail(request, pid):
     # Retrieve the product and related images
@@ -101,6 +98,7 @@ def product_detail(request, pid):
     related_products = Product.objects.filter(category=product.category).exclude(pid=pid)[:4]
     reviews = ProductReview.objects.filter(product=product)
     average_rating = reviews.aggregate(rating=Avg('rating'))  # Aggregate the rating
+    reviews_form = ProductReviewForm()
 
     context = {
         'product': product, 
@@ -108,6 +106,49 @@ def product_detail(request, pid):
         'reviews': reviews,
         'average_rating': average_rating,
         'related_products': related_products,
+        'reviews_form': reviews_form,
         'user': request.user, 
     }
     return render(request, 'core/product-detail.html', context)
+
+
+from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Avg
+from core.models import Product, ProductReview
+
+def ajax_add_review(request, pid):
+    try:
+        # Retrieve product and user
+        product = Product.objects.get(pid=pid)
+        user = request.user
+        
+        # Create the review
+        review = ProductReview.objects.create(
+            user=user,
+            product=product,
+            review=request.POST['review'],
+            rating=request.POST['rating'],
+        )
+
+        # Prepare the context with user info and review details
+        context = {
+            "user": user.username,
+            "review": request.POST['review'],
+            "rating": request.POST['rating'],
+        }
+
+        # Calculate the average rating for the product
+        average_reviews = ProductReview.objects.filter(product=product).aggregate(rating=Avg('rating'))
+        
+        return JsonResponse({
+            "bool": True,
+            "context": context,
+            "average_reviews": average_reviews['rating'],
+        })
+
+    except ObjectDoesNotExist:
+        return JsonResponse({"bool": False, "error": "Product not found."}, status=404)
+    except Exception as e:
+        print("Error:", e)  # Log the error for debugging
+        return JsonResponse({"bool": False, "error": str(e)}, status=500)
