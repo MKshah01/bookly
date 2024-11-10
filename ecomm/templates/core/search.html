@@ -1,0 +1,108 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<section class="search-section">
+    <div style="padding: 20px; text-align: center;">
+        <h2 style="color: #ff5c85; margin: 0;">Search Results for: "{{ query }}"</h2>
+    </div>
+
+    <div class="container">
+        <div class="row product-grid">
+            {% if products %}
+                {% for product in products %}
+                <div class="col-md-3 product-col">
+                    <div class="book">
+                        <div class="product-info">
+                            <p class="product-title">{{ product.title }}</p>
+
+                            <!-- Updated View Product Button with Tooltip Animation -->
+                            <div class="button" data-tooltip="View Details">
+                                <a href="{% url 'core:product_detail' product.pid %}">
+                                    <div class="button-wrapper">
+                                        <div class="text">View Product</div>
+                                        <span class="icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                <path d="M8 3c-4.5 0-7.5 3-7.5 3s3 3 7.5 3 7.5-3 7.5-3-3-3-7.5-3zm0 5.5c-1.5 0-2.5-1-2.5-2.5s1-2.5 2.5-2.5 2.5 1 2.5 2.5-1 2.5-2.5 2.5z"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <!-- New Add to Cart Button with Tooltip -->
+                            <div class="button" data-tooltip="PRICE ${{ product.price }}">
+                                <div class="button-wrapper">
+                                    <div class="text">Add To Cart</div>
+                                    <span class="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+                                            <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <p class="product-price">
+                                <span class="current-price">${{ product.price }}</span>
+                                {% if product.old_price %}
+                                <span class="old-price">${{ product.old_price }}</span>
+                                {% endif %}
+                            </p>
+                        </div>
+
+                        <div class="cover">
+                            <a href="{% url 'core:product_detail' product.pid %}">
+                                <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-image">
+                                {% if product.get_percentage > 0 %}
+                                <span class="discount-badge">{{ product.get_percentage }}% off</span>
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <p style="text-align: center;">No products found matching your search.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+
+<style>
+   
+    
+    /* Hover effect on section */
+    .search-section:hover {
+        transform: translateY(-4px); /* Slight lift */
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+    }
+    
+    /* Sleek and Modern Header Title */
+    .search-section h2 {
+        font-size: 28px; /* Balanced, modern font size */
+        font-weight: 500; /* Light but bold enough */
+        color: #ff5c85; /* Elegant accent color */
+        text-transform: uppercase; /* Adds structure to the title */
+        letter-spacing: 2px; /* Wider letter spacing for a refined look */
+        margin: 0;
+        padding-bottom: 15px;
+        display: inline-block; /* Centered inline block */
+        font-family: 'Roboto', sans-serif; /* Clean, modern font */
+        border-bottom: 2px solid #ff5c85; /* Underline for additional flair */
+        transition: color 0.3s ease, transform 0.3s ease; /* Smooth hover effect */
+    }
+    
+    /* Title Hover Effect */
+    .search-section h2:hover {
+        color: #d44465; /* Darker pink shade for hover effect */
+        transform: translateY(-3px); /* Slight lift for a dynamic feel */
+    }
+    
+    
+    
+</style>
+{% endblock %}

@@ -6,14 +6,63 @@
 <section class="product-section">
     <div style="padding: 20px; text-align: center;">
         <h2 style="color: #ff5c85; margin: 0;">{{ category.title }} Our Products</h2>
+    </div>
+
+    <!-- Filter and Sort Options -->
+    <div class="filter-sort-container" style="text-align: center; margin-bottom: 20px;">
+        <label for="filter-category">Filter by Category:</label>
+        <select id="filter-category" onchange="filterProducts()">
+            <option value="all">All</option>
+            <option value="fiction">Fiction</option>
+            <option value="horror">horror</option>
+            <option value="Best Selling">Best Selling</option>
+            <option value="non-fiction">Non-Fiction</option>
+            <!-- Add more categories as needed -->
+        </select>
+
+        <label for="sort-products">Sort by:</label>
+        <select id="sort-products" onchange="sortProducts()">
+            <option value="default">Default</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="discount">Discount</option>
+        </select>
+    </div>
+
     <div class="container">
-        <div class="row product-grid">
+        <div class="row product-grid" id="product-grid">
             {% for product in products %}
-            <div class="col-md-3 product-col">  <!-- Ensure 4 cards per row -->
+            <div class="col-md-3 product-col" data-category="{{ product.category }}" data-price="{{ product.price }}" data-discount="{{ product.get_percentage }}">
                 <div class="book">
-                    <div class="product-info">  <!-- Wrapper for title and price -->
+                    <div class="product-info">
                         <p class="product-title">{{ product.title }}</p>
-                        <a href="{% url 'core:product_detail' product.pid %}" class="btn view-product-btn">View Product</a> 
+
+                        <!-- Updated View Product Button with Tooltip Animation -->
+                        <div class="button" data-tooltip="View Details">
+                            <a href="{% url 'core:product_detail' product.pid %}" data-tooltip="View Details">
+                                <div class="button-wrapper">
+                                    <div class="text">View Product</div>
+                                    <span class="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                            <path d="M8 3c-4.5 0-7.5 3-7.5 3s3 3 7.5 3 7.5-3 7.5-3-3-3-7.5-3zm0 5.5c-1.5 0-2.5-1-2.5-2.5s1-2.5 2.5-2.5 2.5 1 2.5 2.5-1 2.5-2.5 2.5z"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- New Add to Cart Button with Tooltip -->
+                        <div class="button" data-tooltip="PRICE ${{ product.price }}">
+                            <div class="button-wrapper">
+                                <div class="text">Add To Cart</div>
+                                <span class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+                                        <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+
                         <p class="product-price">
                             <span class="current-price">${{ product.price }}</span>
                             {% if product.old_price %}
@@ -30,10 +79,43 @@
                         </a>
                     </div>
                 </div>
+                <p class="title">{{ product.title }}</p>
             </div>
             {% endfor %}
         </div>
     </div>
-    
 </section>
+
+<script>
+function filterProducts() {
+    const selectedCategory = document.getElementById('filter-category').value;
+    const products = document.querySelectorAll('.product-col');
+
+    products.forEach(product => {
+        const productCategory = product.getAttribute('data-category');
+        product.style.display = (selectedCategory === 'all' || productCategory === selectedCategory) ? 'block' : 'none';
+    });
+}
+
+function sortProducts() {
+    const selectedSort = document.getElementById('sort-products').value;
+    const productGrid = document.getElementById('product-grid');
+    const products = Array.from(productGrid.getElementsByClassName('product-col'));
+
+    products.sort((a, b) => {
+        const priceA = parseFloat(a.getAttribute('data-price'));
+        const priceB = parseFloat(b.getAttribute('data-price'));
+        const discountA = parseFloat(a.getAttribute('data-discount'));
+        const discountB = parseFloat(b.getAttribute('data-discount'));
+
+        if (selectedSort === 'price-asc') return priceA - priceB;
+        if (selectedSort === 'price-desc') return priceB - priceA;
+        if (selectedSort === 'discount') return discountB - discountA;
+        return 0; // Default sort
+    });
+
+    products.forEach(product => productGrid.appendChild(product)); // Reorder products in DOM
+}
+</script>
+
 {% endblock %}

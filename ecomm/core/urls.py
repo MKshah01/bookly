@@ -20,6 +20,8 @@ urlpatterns = [
 
 
     path('add-review/<str:pid>/', views.ajax_add_review, name='ajax_add_review'),
+
+    path('search/', views.search_view, name='search'),
     
 
 

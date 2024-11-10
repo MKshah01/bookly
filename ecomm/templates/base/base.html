@@ -166,9 +166,9 @@
     <div class="search-popup">
       <div class="search-popup-container">
 
-        <form role="search" method="get" class="search-form" action="">
+        <form role="search" method="get" class="search-form" action="{% url "core:search" %}">
           <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value=""
-            name="s" />
+            name="q" />
           <button type="submit" class="search-submit"><svg class="search">
               <use xlink:href="#search"></use>
             </svg></button>

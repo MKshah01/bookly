@@ -194,58 +194,90 @@
 
           <section id="best-selling-items" class="position-relative padding-large">
             <div class="container">
-              <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
-                <h3 class="d-flex align-items-center">Best selling items</h3>
-                <a href="{% url 'core:best_selling'%}" class="btn">View All</a>
-              </div>
-
-              <!-- Swiper Navigation Arrows -->
-              <div class="position-absolute top-50 end-0 pe-0 pe-xxl-5 me-0 me-xxl-5 swiper-next product-slider-button-next">
-                <svg class="chevron-forward-circle d-flex justify-content-center align-items-center p-2" width="40" height="40">
-                    <use xlink:href="#alt-arrow-right-outline"></use>
-                </svg>
-            </div>
-            <div class="position-absolute top-50 start-0 ps-0 ps-xxl-5 ms-0 ms-xxl-5 swiper-prev product-slider-button-prev">
-                <svg class="chevron-back-circle d-flex justify-content-center align-items-center p-2" width="40" height="40">
-                    <use xlink:href="#alt-arrow-left-outline"></use>
-                </svg>
-            </div>
-    
-            <!-- Swiper Product Slider -->
-            <div class="swiper product-swiper" style="display: flex; align-items: center; overflow: hidden;">
-                <div class="swiper-wrapper" style="display: flex; flex-wrap: nowrap; align-items: center;">
+                <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+                    <h3 class="d-flex align-items-center">Best Selling Items</h3>
+                    <a href="{% url 'core:best_selling' %}" class="btn">View All</a>
+                </div>
         
-                <!-- Product Grid -->
-                <div class="row product-grid">
-                    {% for p in products %}
-                    {% if p.is_best_seller %}
-                    <div class="col-md-3 product-col">
-                        <div class="book">
-                            <div class="product-info">
-                                <p class="product-title">{{ p.title }}</p>
-                                <a href="{% url 'core:product_detail' p.pid %}" class="btn view-product-btn">View Product</a>
-                                <p class="product-price">
-                                    <span class="current-price">${{ p.price }}</span>
-                                    {% if p.old_price %}
-                                    <span class="old-price">${{ p.old_price }}</span>
-                                    {% endif %}
-                                </p>
-                            </div>
-                            <div class="cover">
-                                <a href="{% url 'core:product_detail' p.pid %}">
-                                    <img src="{{ p.image.url }}" alt="{{ p.title }}" class="product-image">
-                                    {% if p.get_percentage > 0 %}
-                                    <span class="discount-badge">{{ p.get_percentage }}% off</span>
-                                    {% endif %}
-                                </a>
+                <!-- Swiper Navigation Arrows -->
+                <div class="position-absolute top-50 end-0 pe-0 pe-xxl-5 me-0 me-xxl-5 swiper-next product-slider-button-next">
+                    <svg class="chevron-forward-circle d-flex justify-content-center align-items-center p-2" width="40" height="40">
+                        <use xlink:href="#alt-arrow-right-outline"></use>
+                    </svg>
+                </div>
+                <div class="position-absolute top-50 start-0 ps-0 ps-xxl-5 ms-0 ms-xxl-5 swiper-prev product-slider-button-prev">
+                    <svg class="chevron-back-circle d-flex justify-content-center align-items-center p-2" width="40" height="40">
+                        <use xlink:href="#alt-arrow-left-outline"></use>
+                    </svg>
+                </div>
+        
+                <!-- Swiper Product Slider -->
+                <div class="swiper product-swiper" style="display: flex; align-items: center; overflow: hidden;">
+                    <div class="swiper-wrapper" style="display: flex; flex-wrap: nowrap; align-items: center;">
+        
+                        <!-- Product Grid -->
+                        <div class="container">
+                            <div class="row product-grid">
+                                {% for product in products|slice:":4" %}
+                                <div class="col-md-3 product-col">
+                                    <div class="book">
+                                        <div class="product-info">
+                                            <p class="product-title">{{ product.title }}</p>
+        
+                                            <!-- Updated View Product Button with Tooltip Animation -->
+                                            <div class="button" data-tooltip="View Details">
+                                                <a href="{% url 'core:product_detail' product.pid %}">
+                                                    <div class="button-wrapper">
+                                                        <div class="text">View Product</div>
+                                                        <span class="icon">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                                <path d="M8 3c-4.5 0-7.5 3-7.5 3s3 3 7.5 3 7.5-3 7.5-3-3-3-7.5-3zm0 5.5c-1.5 0-2.5-1-2.5-2.5s1-2.5 2.5-2.5 2.5 1 2.5 2.5-1 2.5-2.5 2.5z"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </div>
+        
+                                            <!-- Add to Cart Button with Tooltip -->
+                                            <div class="button" data-tooltip="PRICE ${{ product.price }}">
+                                                <div class="button-wrapper">
+                                                    <div class="text">Add To Cart</div>
+                                                    <span class="icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+                                                            <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                            </div>
+        
+                                            <p class="product-price">
+                                                <span class="current-price">${{ product.price }}</span>
+                                                {% if product.old_price %}
+                                                <span class="old-price">${{ product.old_price }}</span>
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                        <div class="cover">
+                                            <a href="{% url 'core:product_detail' product.pid %}">
+                                                <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-image">
+                                                {% if product.get_percentage > 0 %}
+                                                <span class="discount-badge">{{ product.get_percentage }}% off</span>
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <p class="title">{{ product.title }}</p>
+                                </div>
+                                {% empty %}
+                                <p class="no-products">No products available in this category.</p>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
-                    {% endif %}
-                    {% endfor %}
                 </div>
             </div>
         </section>
+        
         
         
 

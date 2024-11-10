@@ -42,7 +42,6 @@
     .product-grid {
         grid-template-columns: repeat(4, 1fr);  /* 4 products per row for large desktops */
         grid-gap: 2rem;  /* Increased gap between products */
-        
     }
 
     .product-col {
@@ -62,14 +61,20 @@
     }
 }
 
+.product-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 15px;  /* Reduced space between rows */
+    padding: 0 10px;  /* Optional: Adjust side padding if necessary */
+}
 
 .book {
     position: relative;
     border-radius: 10px;
     width: 220px; /* Adjust as needed */
     height: 300px; /* Adjust as needed */
-    background-color: #FAF3E0; /* A softer, aged paper color */
-    /* box-shadow: 1px 1px 12px #000; */
+    background-color: #f7e8a8; /* A softer, aged paper color */
     transform: preserve-3d;
     perspective: 2000px;
     display: flex;
@@ -77,7 +82,6 @@
     justify-content: center;
     color: #000;
 }
-
 
 .cover {
     position: absolute;
@@ -130,22 +134,23 @@ p {
     font-size: 20px;
     font-weight: bolder;
 }
+
 .product-info {
     text-align: center; /* Center-align the title and price */
     padding: 10px 0;   /* Add space around the text */
 }
 
 .product-title {
-    font-size: 22px; /* Larger font size for visibility */
-    font-weight: bold; /* Make the title bold */
-    color: #8B5B29; /* Darker color for contrast */
+    font-size: 24px; /* Slightly larger font size for better visibility */
+    font-weight: bold; /* Bold for emphasis */
+    color: #333333; /* Dark grey for a modern and sophisticated look */
     margin: 0; /* Remove any default margin */
     padding: 5px 0; /* Add some padding above and below */
     text-align: center; /* Center-align the title */
-    text-transform: uppercase; /* Optional: make the text uppercase */
-    letter-spacing: 0.5px; /* Slightly increased letter spacing for readability */
+    text-transform: uppercase; /* Force the title to be in all uppercase */
+    letter-spacing: 1px; /* Slight letter spacing for readability */
+    line-height: 1.2; /* Improve the line spacing to avoid overcrowding */
 }
-
 
 .product-price {
     color: #D4C08E; /* Base color for the current price */
@@ -167,62 +172,205 @@ p {
     font-size: 16px; /* Slightly smaller font size for distinction */
 }
 
-.view-product-btn {
-    display: inline-block; /* Ensures the button displays as a block */
-    margin-top: 10px; /* Space above the button */
-    padding: 10px 20px; /* Padding inside the button */
-    background-color: #ff7c92; /* Your preferred background color */
-    color: white; /* Text color */
-    border: none; /* Remove default border */
-    border-radius: 5px; /* Rounded corners */
-    text-align: center; /* Center the text */
-    text-decoration: none; /* Remove underline */
-    font-weight: bold; /* Bold text */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-}
+
 
 .view-product-btn:hover {
     background-color: #e05378; /* Darker shade on hover */
 }
-.page-title {
-    font-size: 36px; /* Prominent font size */
-    font-weight: 700; /* Bold font weight for impact */
-    color: #ff5c85; /* Vibrant theme color */
-    margin: 30px 0; /* Space above and below the title */
-    text-align: center; /* Center the title */
-    text-transform: uppercase; /* Uppercase text */
-    letter-spacing: 2px; /* Increased letter spacing for elegance */
-    
-    /* Gradient text effect */
-    background: linear-gradient(45deg, #ff5c85, #ff8e8e); 
-    -webkit-background-clip: text; /* Clip background to text */
-    color: transparent; /* Make the text color transparent */
-    
-    /* Subtle text shadow */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Softer shadow for depth */
-    
-    /* Decorative underline */
-    position: relative; /* For positioning the underline */
-    padding-bottom: 10px; /* Space for the underline */
+
+/* Adjustments to title positioning */
+.product-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 0 10px;
 }
 
-.page-title::after {
-    content: ""; /* Create a pseudo-element */
-    display: block; /* Make it a block element */
-    width: 80%; /* Control the width of the underline */
-    height: 4px; /* Thickness of the underline */
-    background-color: #ff5c85; /* Underline color */
-    margin: 10px auto; /* Center the underline */
-    border-radius: 2px; /* Rounded corners */
-    opacity: 0.8; /* Slight transparency for a softer look */
+.title {
+    margin-top: 80px;  /* Reduced space between image and title */
+    text-align: center;
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: -20px;  /* Ensure no extra margin below the title */
+    text-transform: uppercase;  /* Title in uppercase */
+    letter-spacing: 2px; /* Enhanced readability */
+    color: #333333;  /* Ensure the title color is dark enough */
 }
 
-/* Optional Hover Effect */
-.page-title:hover {
-    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+/* From Uiverse.io by SouravBandyopadhyay */
+.button {
+    --width: 150px;
+    --height: 35px;
+    --tooltip-height: 35px;
+    --tooltip-width: 90px;
+    --gap-between-tooltip-to-button: 18px;
+    --button-color: #222;
+    --tooltip-color: #fff;
+    width: var(--width);
+    height: var(--height);
+    background: var(--button-color);
+    position: relative;
+    text-align: center;
+    border-radius: 0.5em;
+    font-family: "Arial";
+    transition: background 0.7s;
+    margin-top: 10px; /* Add spacing between View Product and Add to Cart */
+  }
+  
+  .button::before {
+    position: absolute;
+    content: attr(data-tooltip);
+    width: var(--tooltip-width);
+    height: var(--tooltip-height);
+    background-color: #555;
+    font-size: 0.9rem;
+    color: #fff;
+    border-radius: 0.25em;
+    line-height: var(--tooltip-height);
+    bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) + 10px);
+    left: calc(50% - var(--tooltip-width) / 2);
+  }
+  
+  .button::after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-top-color: #555;
+    left: calc(50% - 10px);
+    bottom: calc(100% + var(--gap-between-tooltip-to-button) - 10px);
+  }
+  
+  .button::after,
+  .button::before {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s;
+  }
+  
+  .text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .button-wrapper,
+  .text,
+  .icon {
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    color: #fff;
+  }
+  
+  .text {
+    top: 0;
+  }
+  
+  .text,
+  .icon {
+    transition: top 0.5s;
+  }
+  
+  .icon {
+    color: #fff;
+    top: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .button:hover {
+    background: #222;
+  }
+  
+  .button:hover .text {
+    top: -100%;
+  }
+  
+  .button:hover .icon {
+    top: 0;
+  }
+  
+  .button:hover:before,
+  .button:hover:after {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .button:hover:after {
+    bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) - 20px);
+  }
+  
+  .button:hover:before {
+    bottom: calc(var(--height) + var(--gap-between-tooltip-to-button));
+  }
+  
+  /* Center the button */
+  .product-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .product-info .button {
+    margin-top: 10px; /* Adjust spacing if needed */
+  }
+  
+/* Center alignment and spacing */
+.filter-sort-container {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
+/* Style for the labels */
+.filter-sort-container label {
+  font-size: 16px;
+  color: #333;
+  margin-right: 10px;
+  font-weight: bold;
+}
 
+/* General dropdown styling */
+.filter-sort-container select {
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s;
+  margin: 0 10px;
+}
 
+/* Hover and focus effects for dropdown */
+.filter-sort-container select:hover,
+.filter-sort-container select:focus {
+  border-color: #ff5c85; /* Matches your theme color */
+}
 
+/* Optional: Make the dropdowns match your theme */
+.filter-sort-container select {
+  background-color: #f9f9f9; /* Light background */
+  color: #333;
+}
 
+.filter-sort-container select option {
+  background-color: #fff; /* White background for dropdown options */
+  color: #333;
+}
+
+/* Styling to make dropdown more visually appealing */
+.filter-sort-container select:focus-visible {
+  outline: none;
+}

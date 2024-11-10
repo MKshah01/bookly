@@ -1,4 +1,5 @@
 from django.http import HttpResponse , JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Avg , Count
@@ -112,11 +113,6 @@ def product_detail(request, pid):
     return render(request, 'core/product-detail.html', context)
 
 
-from django.http import JsonResponse
-from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Avg
-from core.models import Product, ProductReview
-
 def ajax_add_review(request, pid):
     try:
         # Retrieve product and user
@@ -152,3 +148,21 @@ def ajax_add_review(request, pid):
     except Exception as e:
         print("Error:", e)  # Log the error for debugging
         return JsonResponse({"bool": False, "error": str(e)}, status=500)
+
+from django.shortcuts import render
+from .models import Product
+
+def search_view(request):
+    # Get the search query from the GET request
+    query = request.GET.get('q', '')  # Default to an empty string if 'q' is not provided
+
+    # Filter products based on the search query in title or description
+    products = Product.objects.filter(title__icontains=query).order_by("-date")
+    # Set up the context with the search results and query
+    context = {
+        "products": products,
+        "query": query,
+    }
+
+    # Render the search.html template with the context data
+    return render(request, "core/search.html", context)

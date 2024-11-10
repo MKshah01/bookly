@@ -100,6 +100,19 @@
         font-size: 1.2rem;
         margin-top: 2rem;
     }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .category-container {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+    }
+
+    @media (max-width: 480px) {
+        .category-container {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+    }
 </style>
 
 <div class="category-wrapper">
