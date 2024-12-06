@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static 'js/function.js' %}" defer></script>
 
 <link rel="stylesheet" type="text/css" href="{% static 'core/product-detail.css' %}"> 
@@ -44,12 +45,18 @@
             <p style="font-size: 14px; color: #555555; line-height: 1.6;">{{ product.description }}</p>
             <div style="margin-top: 20px;">
                 <p><strong>Category:</strong> {{ product.category }}</p>
-                <p><strong>Availability:</strong> {% if product.stock > 0 %} In Stock {% else %} Out of Stock {% endif %}</p>
+                {% comment %} <p><strong>Availability:</strong> {% if product.stock > 0 %} In Stock {% else %} Out of Stock {% endif %}</p> {% endcomment %}
             </div>
             <div style="margin-top: 20px;">
-                <button type="submit" class="cart-button {% if product.stock == 0 %}disabled{% endif %}">
-                    Add to Cart
-                </button>
+                <input type="number" value="1" id="quantity" name="quantity" min="1" max="{{ product.stock }}" >
+                <input type="text" id="product_id" name="product_id" value="{{ product.id }}" hidden="true">
+                <input type="text" id="product_title" name="product_title" value="{{ product.title }}" hidden="true">
+                <input type="text" id="product_price" name="product_price" value="{{ product.price }}" hidden="true">
+            </br>
+            <button type="button" class="cart-button {% if product.stock == 0 %}disabled{% endif %} {% if not user.is_authenticated %}login-required{% endif %}" >
+                Add to Cart
+            </button>
+        
             </div>
         </div>
     </div>

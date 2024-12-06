@@ -23,6 +23,9 @@ urlpatterns = [
 
     path('search/', views.search_view, name='search'),
     
+    path("cart/add/", views.add_to_cart_ajax, name="add_to_cart_ajax"),
+
+    path("add-to-cart/", views.add_to_cart, name="add_to_cart"),
 
 
 ]

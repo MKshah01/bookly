@@ -236,7 +236,7 @@
                   <a class="nav-link me-4" href="index.html">About</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="index.html">Shop</a>
+                  <a class="nav-link me-4" href="{% url "core:product_list" %}">Shop</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link me-4" href="{% url "core:category_list" %}">Category</a>
@@ -249,7 +249,7 @@
                       <a href="index.html" class="dropdown-item fw-light">About</a>
                     </li>
                     <li>
-                      <a href="index.html" class="dropdown-item fw-light">Shop</a>
+                      <a href="{% url "core:product_list" %}" class="dropdown-item fw-light">Shop</a>
                     </li>
                     <li>
                       <a href="index.html" class="dropdown-item fw-light">Single Product</a>
@@ -374,7 +374,7 @@
                       aria-expanded="false">
                       <svg class="cart">
                         <use xlink:href="#cart"></use>
-                      </svg><span class="fs-6 fw-light">(02)</span>
+                      </svg><span class="fs-6 fw-light" cart-items-count id="cart-count">{{request.session.cart_data_obj|length}}</span>
                     </a>
                     <div class="dropdown-menu animate slide dropdown-menu-start dropdown-menu-lg-end p-3">
                       <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -488,10 +488,7 @@
                       <a href="#">About</a>
                     </li>
                     <li class="menu-item mb-1">
-                      <a href="#">Shop</a>
-                    </li>
-                    <li class="menu-item mb-1">
-                      <a href="#">Blogs</a>
+                      <a href="{% url "core:product_list" %}">Shop</a>
                     </li>
                     <li class="menu-item mb-1">
                       <a href="#">Contact</a>

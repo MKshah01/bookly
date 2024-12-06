@@ -38,36 +38,27 @@
                         <p class="product-title">{{ product.title }}</p>
 
                         <!-- Updated View Product Button with Tooltip Animation -->
-                        <div class="button" data-tooltip="View Details">
-                            <a href="{% url 'core:product_detail' product.pid %}" data-tooltip="View Details">
-                                <div class="button-wrapper">
-                                    <div class="text">View Product</div>
-                                    <span class="icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                            <path d="M8 3c-4.5 0-7.5 3-7.5 3s3 3 7.5 3 7.5-3 7.5-3-3-3-7.5-3zm0 5.5c-1.5 0-2.5-1-2.5-2.5s1-2.5 2.5-2.5 2.5 1 2.5 2.5-1 2.5-2.5 2.5z"></path>
-                                        </svg>
-                                    </span>
-                                </div>
+                        <div class="button">
+                            <a href="{% url 'core:product_detail' product.pid %}">
+                                <button class="button type1">
+                                    <span class="btn-txt">View Product</span>
+                                </button>
                             </a>
                         </div>
 
                         <!-- New Add to Cart Button with Tooltip -->
-                        <div class="button" data-tooltip="PRICE ${{ product.price }}">
-                            <div class="button-wrapper">
-                                <div class="text">Add To Cart</div>
-                                <span class="icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
-                                        <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
-                                    </svg>
-                                </span>
-                            </div>
+                        <div class="button">
+                            <button class="button type1">
+                                <span class="btn-txt">Add to Cart</span>
+                            </button>
                         </div>
+                        
 
                         <p class="product-price">
-                            <span class="current-price">${{ product.price }}</span>
                             {% if product.old_price %}
                             <span class="old-price">${{ product.old_price }}</span>
                             {% endif %}
+                            <span class="current-price">${{ product.price }}</span>
                         </p>
                     </div>
                     <div class="cover">

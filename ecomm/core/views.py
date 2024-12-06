@@ -149,9 +149,6 @@ def ajax_add_review(request, pid):
         print("Error:", e)  # Log the error for debugging
         return JsonResponse({"bool": False, "error": str(e)}, status=500)
 
-from django.shortcuts import render
-from .models import Product
-
 def search_view(request):
     # Get the search query from the GET request
     query = request.GET.get('q', '')  # Default to an empty string if 'q' is not provided
@@ -166,3 +163,83 @@ def search_view(request):
 
     # Render the search.html template with the context data
     return render(request, "core/search.html", context)
+
+
+def add_to_cart_ajax(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'success': False, 'message': 'You need to log in to add items to the cart.'}, status=401)
+
+    try:
+        user = request.user
+        product_id = request.POST.get('product_id')
+        quantity = int(request.POST.get('quantity', 1))
+        product = get_object_or_404(Product, id=product_id)
+
+        # Create or retrieve a cart order for the user
+        cart_order, created = CartOrder.objects.get_or_create(
+            user=user,
+            paid_status=False  # Only get the current active cart
+        )
+
+        # Add or update the item in cart order items
+        cart_item, item_created = CartOrderItems.objects.get_or_create(
+            order=cart_order,
+            item=product.title,
+            defaults={
+                'invoice_no': generate_invoice_number(),  # Replace with your dynamic invoice generation logic
+                'product_status': 'Pending',
+                'qty': quantity,
+                'price': product.price,
+                'total': product.price * quantity,
+                'image': product.image.url  # Ensure image field exists or adjust accordingly
+            }
+        )
+
+        if not item_created:
+            # Update quantity and total if the item already exists in the cart
+            cart_item.qty += quantity
+            cart_item.total = cart_item.qty * cart_item.price
+            cart_item.save()
+
+        # Return JSON response with updated cart count
+        return JsonResponse({
+            'success': True,
+            'cart_count': CartOrderItems.objects.filter(order=cart_order).count()
+        })
+
+    except Product.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Product not found.'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)}, status=500)
+
+def generate_invoice_number():
+    import uuid
+    return f"INV-{uuid.uuid4().hex[:8].upper()}"
+
+
+def add_to_cart(request):
+    cart_product = {
+        str(request.GET['id']): {
+            'title': request.GET['title'],
+            'qty': int(request.GET['qty']),
+            'price': float(request.GET["price"])
+        }
+    }
+    
+    if 'cart_data_obj' in request.session:
+        if str(request.GET['id']) in request.session['cart_data_obj']:
+            cart_data = request.session['cart_data_obj']
+            cart_data[str(request.GET['id'])]['qty'] += int(request.GET['qty'])
+            request.session['cart_data_obj'] = cart_data
+        else:
+            cart_data = request.session['cart_data_obj']
+            cart_data.update(cart_product)
+            request.session['cart_data_obj'] = cart_data
+    else:
+        request.session['cart_data_obj'] = cart_product
+
+    # Return the updated cart data and total number of items in the cart
+    return JsonResponse({
+        "data": request.session['cart_data_obj'], 
+        "totalcartitems": len(request.session['cart_data_obj'])
+    })
